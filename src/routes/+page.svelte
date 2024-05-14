@@ -1,47 +1,45 @@
 <script lang="ts">
-	import { fly,fade } from 'svelte/transition';
+	import { fade } from 'svelte/transition';
 	import { quintIn } from 'svelte/easing';
-
-	let stepper = 1;
-	let temp = 0;
-	function logger(message: number) {
-		console.log(`Logger got called with: ${message}`);
-
-		stepper += 1;
-
-		if (stepper == 5) {
-			stepper = 0;
-		}
+	import { onDestroy } from 'svelte';
+  
+	let currentImage = 0; // Initialize currentImage to 0
+	const images = [
+		"/Carousel/_IMG1464.jpg",
+		"/Carousel/_IMG5136.jpg",
+		"/Carousel/_IMG2616.jpg",
+		"/Carousel/_IMG4685.jpg",
+		"/Carousel/ContactSheet-001.png"
+	];
+  
+	function changeImage() {
+		currentImage = (currentImage + 1) % images.length; // Use modulo to cycle through images
+		console.log(`Changing image. Current Image Index: ${currentImage}`);
 	}
-
-		const seconds = 5;
-
+  
+	const seconds = 5;
+  
 	// call function every 5 seconds
-	setInterval(() => {
-		logger(stepper);
-	}, seconds * 1000);
+	const interval = setInterval(changeImage, seconds * 1000);
+  
+	// Clear the interval when the component is destroyed
+	onDestroy(() => {
+		clearInterval(interval);
+	});
 </script>
-
+  
 <div class="page-container">
-	{#if stepper == 0 }
-		<img src="/Carousel/_IMG1464.jpg" alt="" transition:fade={ { delay: 500, duration: 500 , easing: quintIn}} />
-	{:else if stepper == 1}
-		<img src="/Carousel/_IMG5136.jpg" alt="" transition:fade={ { delay: 500, duration: 500 , easing: quintIn}} />
-	{:else if stepper == 2}
-		<img src="/Carousel/_IMG2616.jpg" alt="" transition:fade={ { delay: 500, duration: 500 , easing: quintIn}} />
-	{:else if stepper == 3}
-		<img src="/Carousel/_IMG4685.jpg" alt="" transition:fade={ { delay: 500, duration: 500 , easing: quintIn}} />
-	{:else if stepper == 4}
-		<img src="/Carousel/ContactSheet-001.png" alt="" transition:fade={ { delay: 500, duration: 500 , easing: quintIn}} />
-	{/if}
+	{#each images as image, index}
+		<div 
+			style="background-image: url({image});"
+			class="{currentImage === index ? 'active' : ''}"
+			transition:fade={{ duration: 500, easing: quintIn }}>
+		</div>
+	{/each}
 </div>
-
+  
 <style>
-	img {
-		position:sticky;
-	}
-
-	.page-container{
+	.page-container {
 		background-color: #353535;
 		height: 90vh;
 		width: 100vw;
@@ -50,11 +48,23 @@
 		flex-direction: column;
 		align-items: center;
 		justify-content: center;
+		position: relative; /* Needed for absolute positioning */
 	}
-
-	/* img {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-	} */
+  
+	.page-container > div {
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		background-size: cover;
+		background-position: center;
+		opacity: 0;
+		transition: opacity 0.5s ease;
+	}
+  
+	.page-container > div.active {
+		opacity: 1;
+	}
 </style>
+  
