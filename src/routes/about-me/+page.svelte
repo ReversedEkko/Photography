@@ -4,4 +4,16 @@
     // export let data: PageData;
 </script>
 
-yap here
+<div class="pageBG">
+
+</div>
+
+<style>
+    .pageBG {
+        background-image: url("_IMG0208.jpg");
+        height: 90vh;
+        width: 100vw;
+        background-size: cover;
+		background-position: center;
+    }
+</style>

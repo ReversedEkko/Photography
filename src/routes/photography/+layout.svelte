@@ -23,7 +23,7 @@
     <div class="decoy"></div>
 
     <div class="flex justify-center align-middle m-1 max-h-full overflow-y-auto">
-        <section class="grid grid-cols-1 md:grid-cols-3 gap-4 w-2/3">
+        <section class="grid grid-cols-1 lg:grid-cols-3 gap-4 w-2/3">
             {#each imgSrc as src, i}
                 <Cards imgSrc={src} />
             {/each}
