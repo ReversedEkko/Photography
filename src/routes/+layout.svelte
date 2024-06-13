@@ -1,7 +1,6 @@
 <script lang="ts">
 	import '../app.postcss';
 	import Nav from '../components/nav.svelte';
-	import Card from '../components/card.svelte';
 </script>
 
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
